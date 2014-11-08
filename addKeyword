@@ -1,0 +1,9 @@
+<script type="text/javascript">
+
+	var keywords = [];
+
+	function addKeyword(word) {
+		keywords.push(word);
+	}
+	
+</script>

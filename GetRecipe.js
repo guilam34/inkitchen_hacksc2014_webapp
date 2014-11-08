@@ -1,8 +1,7 @@
 function callback(rText)
 {
 	var object = JSON.parse(rText);
-	var tempArray=[object.ingredientLines, object.totalTime, object.rating];
-	console.log(tempArray);
+	var tempArray=[object.ingredientLines, object.totalTime, object.rating, object.images];
 	return tempArray;
 }
 
@@ -26,4 +25,3 @@ function getUrl(id){
 	var fURL=baseURL+id+"?_app_id=13652b6f&_app_key=e2a3085775005bb76e33f4d653fc7363";
 	return fURL;
 }
-getRecipe("French-Onion-Soup-The-Pioneer-Woman-Cooks-_-Ree-Drummond-41364");

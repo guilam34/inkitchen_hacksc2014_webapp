@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+<script type="text/javascript" src="serverCall.js">
+	var keywords = JSON.parse(window.localStorage.getItem("keywords"));
+	console.log(keywords);
+	
+	serverCall(keywords);
+	
+	function loadRecipes(callback(request.responseText));
+	
+</script>
+</body>
+</html>

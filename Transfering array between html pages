@@ -1,0 +1,31 @@
+//Page 1
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+
+	<script type="text/javascript">
+		var arr = ["hi", "jason", "derek"];
+		if(typeof(Storage) !== "undefined") {
+			window.localStorage.setItem("arr", JSON.stringify(arr));
+		}
+	</script>
+	
+</body>
+</html>
+
+//Page 2
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	<script type="text/javascript">
+		var result = JSON.parse(window.localStorage.getItem("arr"));
+		console.log(result);
+	</script>
+</body>
+</html>

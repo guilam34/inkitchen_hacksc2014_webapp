@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="serverCall.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+	#keyTable{
+		top:20%;
+		left:5%;
+		
+	}
+	
+	p{
+		font-family: Arial;
+		background: yellow;
+	}
+		
+		
+	</style>
+
+</head>
+
+<body>
+<div id="recipeList"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form id="form" onsubmit="return false;">
+<input id="ingredInput" name = "ingredInput" style=position:absolute;top:10%;left:18%;width:25%; type="text" id="ingredInput" placeholder="What else do you have?"/>
+<input   style=position:absolute;top:10%;left:43%;width:60px; type="submit"  id="searchButton" value="add" onclick="addKeyword()">
+</form>
+
+<div id="keyTable">added ingredients<br></div>
+<button onclick="sendArr()"><a href="page2.html">find recipes!</a></button>
+
+<script type="text/javascript">
+	var keywords = JSON.parse(window.localStorage.getItem("keywords"));
+	//console.log(keywords);
+	for(i=0; i < keywords.length; i++){
+		document.getElementById("keyTable").innerHTML +=
+			"<button class='keywordB' id='" + i + "'>" + keywords[i] + "</button>"
+			+ "<button class='xB' id='" + (-1*i) + "' onclick='deleteKeyword(" + i
+			+ ")'>&#10006</button><br>";
+	}
+	
+</script>
+<script type="text/javascript">
+	//keywords = [];
+	//var n = 0;
+	function addKeyword() {
+		var word = document.getElementById("ingredInput").value;
+		if(keywords.indexOf(word) == -1){
+			keywords.push(word);
+			document.getElementById("ingredInput").value='';
+			//console.log(keywords[i]);
+			document.getElementById("keyTable").innerHTML = "Key Table <br>";
+			for(i=0; i < keywords.length; i++){
+				document.getElementById("keyTable").innerHTML +=
+					"<button class='keywordB' id='" + i + "'>" + keywords[i] + "</button>"
+					+ "<button class='xB' id='" + (-1*i) + "' onclick='deleteKeyword(" + i
+					+ ")'>&#10006</button><br>";
+			}
+			//console.log(document.getElementById(i).innerHTML);
+			//n++;
+		}
+		else{
+			document.getElementById("ingredInput").value='';
+		}
+	}
+	
+	function deleteKeyword(index){
+		keywords.splice(index, 1);
+		for(j=index; j< keywords.length; j++){
+			document.getElementById(j+1).id = j;
+			document.getElementById(-1*(j+1)).id = -1*j;
+		}
+		document.getElementById("keyTable").innerHTML = "Key Table<br>";
+		for(k=0; k < keywords.length; k++){
+			document.getElementById("keyTable").innerHTML +=
+				"<button class='keywordB' id='" + k + "'>" + keywords[k] + "</button>"
+				+ "<button class='xB' id='" + (-1*k) + "' onclick='deleteKeyword(" + k
+				+ ")'>&#10006</button><br>";
+		}
+		
+		for(l=0; l<keywords.length; l++){
+			console.log(keywords[l]);
+		}
+		console.log('\n');
+	}
+	
+	function sendArr(){
+		if(typeof(Storage) !== "undefined") {
+			window.localStorage.setItem("keywords", JSON.stringify(keywords));
+		}
+	}
+	
+	
+	function retrieveList(arr){
+		var idList = [];
+		var imgList = [];
+		for(var i =0; i < arr.length; i++){
+			/*
+			var element = document.createElement('p');
+			element.setAttribute('id',i);
+			element.innerHTML = arr[i][1];
+			console.log(arr[i][1]);
+			*/
+			
+			document.getElementById("recipeList").innerHTML +=
+			"<p>" + arr[i][1] + "</p>";
+			
+			/*
+			var recipeId = document.createElement('input');
+			recipeId.setAttribute('type', hidden);
+			recipeId.setAttribute('name', i+'a');
+			recipeId.setAttribute('value', callback[0]);
+			list.appendChild(recipeId);
+			*/
+			
+			/*
+			var image = document.createElement('img');
+			image.setAttribute('id', i+'b');
+			image.setAttribute('source', callback[2]);
+			list.appendChild(image);
+			*/
+			
+			//element.innerHTML = callback[1];
+			//list.appendChild(element);
+		}
+	}
+	
+	var x=[["Curry-Laksa-748241", "Curry Laksa", "http://lh5.ggpht.com/KlH-WmwIN0c_J6fAOkWeF0y0f_skYqmV0hyx62Be7bmBCL5TIkIUqpD3lkYyNJ3RREjpXBE7=s90-c"],["Lettuce-wraps-with-hoisin-peanut-sauce-341606", "Lettuce Wraps with Hoisin-Peanut Sauce", "http://lh4.ggpht.com/fu27OxRS8h03g4BPwOy0jz2jP4zs1BUZOBrm10jfyiAJH_IFfROl73q1YIvQYVrlUZw2fuvg=s90-c"]]
+	retrieveList(x);
+	//console.log(x);
+	</script>
+	
+</script>
+</body>
+</html>

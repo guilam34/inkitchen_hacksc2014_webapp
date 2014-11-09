@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="serverCall.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+	#keyTable{
+		top:20%;
+		left:5%;
+		//background: white;
+	}
+	
+	p{
+		font-family: Arial;
+		background: pink;
+	}
+	
+	#recipeList{
+		position: absolute; left:18%;top:18%;
+		width: 60%;
+		height: 500px;
+		//background: green;
+	}
+		
+	.recipeB{
+		background: pink;
+		border: 0px;
+		
+	}
+	
+	a{
+		text-decoration: none;
+		color: black;
+	}
+	
+	
+		
+	</style>
+</head>
+
+<body>
+
+<form id="form" onsubmit="return false;">
+<input id="ingredInput" name = "ingredInput" style=position:absolute;top:10%;left:18%;width:25%; type="text" id="ingredInput" placeholder="What else do you have?"/>
+<input   style=position:absolute;top:10%;left:43%;width:60px; type="submit"  id="searchButton" value="add" onclick="addKeyword()">
+</form>
+
+<div id="keyTable"><div id="inKitchen">in kitchen</div><br></div>
+<button onclick="sendArr()"><a href="page2.html">find recipes!</a></button>
+
+<div id="recipeList"></div>
+
+
+<script type="text/javascript">
+	var keywords = JSON.parse(window.localStorage.getItem("keywords"));
+	//console.log(keywords);
+	for(i=0; i < keywords.length; i++){
+		document.getElementById("keyTable").innerHTML +=
+			"<button class='keywordB' id='" + i + "'>" + keywords[i] + "</button>"
+			+ "<button class='xB' id='" + (-1*i) + "' onclick='deleteKeyword(" + i
+			+ ")'>&#10006</button><br>";
+	}
+	
+</script>
+<script type="text/javascript">
+	//keywords = [];
+	//var n = 0;
+	function addKeyword() {
+		var word = document.getElementById("ingredInput").value;
+		if(keywords.indexOf(word) == -1){
+			keywords.push(word);
+			document.getElementById("ingredInput").value='';
+			//console.log(keywords[i]);
+			document.getElementById("keyTable").innerHTML = "<div id='inKitchen'>in kitchen</div><br>";
+			for(i=0; i < keywords.length; i++){
+				document.getElementById("keyTable").innerHTML +=
+					"<button class='keywordB' id='" + i + "'>" + keywords[i] + "</button>"
+					+ "<button class='xB' id='" + (-1*i) + "' onclick='deleteKeyword(" + i
+					+ ")'>&#10006</button><br>";
+			}
+			//console.log(document.getElementById(i).innerHTML);
+			//n++;
+		}
+		else{
+			document.getElementById("ingredInput").value='';
+		}
+	}
+	
+	function deleteKeyword(index){
+		keywords.splice(index, 1);
+		for(j=index; j< keywords.length; j++){
+			document.getElementById(j+1).id = j;
+			document.getElementById(-1*(j+1)).id = -1*j;
+		}
+		document.getElementById("keyTable").innerHTML = "<div id='inKitchen'>in kitchen</div><br>";
+		for(k=0; k < keywords.length; k++){
+			document.getElementById("keyTable").innerHTML +=
+				"<button class='keywordB' id='" + k + "'>" + keywords[k] + "</button>"
+				+ "<button class='xB' id='" + (-1*k) + "' onclick='deleteKeyword(" + k
+				+ ")'>&#10006</button><br>";
+		}
+		
+		for(l=0; l<keywords.length; l++){
+			console.log(keywords[l]);
+		}
+		console.log('\n');
+	}
+	
+	function sendArr(){
+		if(typeof(Storage) !== "undefined") {
+			window.localStorage.setItem("keywords", JSON.stringify(keywords));
+		}
+	}
+	
+	serverCall(keywords);
+	
+	
+	
+	//var callback=[["Curry-Laksa-748241", "Curry Laksa", "http://lh5.ggpht.com/2tGsBnyooz581u3yKmGpMMtSbIKvkdfn84qHHosdmi3LMHoErwxkD52ziAkuBqsS8JiqC3gtX7iho1n57PXGGg=s90-c"],["Lettuce-wraps-with-hoisin-peanut-sauce-341606", "Lettuce Wraps with Hoisin-Peanut Sauce", "http://lh5.ggpht.com/h8d067Ilf1oerL8RWvVDGXTrR2QND4cuU-DP7MmPxeJG5awv-_j-6zSfPR6UxBK-QsrBVXLdInOsTsEY09MvLg=s90"]]
+	//retrieveList(callback);
+	//console.log(x);
+	</script>
+	
+</script>
+</body>
+</html>

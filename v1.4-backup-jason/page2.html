@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="serverCall.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+	#keyTable{
+		top:20%;
+		left:5%;
+		//background: white;
+		
+	}
+	.entry{
+		font-family: Arial;
+		background: white;
+		margin-left:25px;
+		margin-right:25px;
+	}
+	#recipeList{
+		position: absolute; left:18%;top:18%;
+		width: 55%;
+		//height: 500px;
+		background: #FFF0E1;
+		box-shadow: 0 10px 8px #888888;
+		margin-bottom: 40px;
+		
+	}
+	.recipeB{
+		background: pink;
+		border: 0px;
+	}
+	a{
+		text-decoration: none;
+		color: black;
+	}
+	#queryB{
+		border-top-right-radius: 5px 5px;
+		border-bottom-right-radius: 5px 5px;
+		position:absolute;top:46%;left:80%;
+		font-size: 27px;
+		height: auto;
+		color: white;
+		background-color: #e74c3c;
+		top:10%;
+		left:5%;
+	}
+	#queryB:hover {
+		background-color: #2ecc71;
+	}
+	</style>
+</head>
+<body>
+	<form id="form" onsubmit="return false;">
+		<input id="ingredInput" name = "ingredInput" style=position:absolute;top:10%;left:18%;width:25%; type="text" id="ingredInput" placeholder="What else do you have?"/>
+		<input style=position:absolute;top:10%;left:43%;width:60px; type="submit" id="searchButton" value="add" onclick="addKeyword()">
+	</form>
+	<div id="keyTable"></div>
+	<button id="queryB" class="keywordB" onclick="sendArr()"><a href="page2.html" style="text-decoration: none; color: white">find recipes!</a></button>
+	<div id="recipeList"></div>
+	
+	
+<script type="text/javascript">
+	var keywords = JSON.parse(window.localStorage.getItem("keywords"));
+//console.log(keywords);
+for(i=0; i < keywords.length; i++){
+	document.getElementById("keyTable").innerHTML +=
+	"<button class='keywordB' id='" + i + "'>" + keywords[i] + "</button>"
+	+ "<button class='xB' id='" + (-1*i) + "' onclick='deleteKeyword(" + i
+		+ ")'>&#10006</button><br>";
+}
+</script>
+<script type="text/javascript">
+//keywords = [];
+//var n = 0;
+function addKeyword() {
+	var word = document.getElementById("ingredInput").value;
+	if(keywords.indexOf(word) == -1){
+		keywords.push(word);
+		document.getElementById("ingredInput").value='';
+//console.log(keywords[i]);
+document.getElementById("keyTable").innerHTML = "";
+for(i=0; i < keywords.length; i++){
+	document.getElementById("keyTable").innerHTML +=
+	"<button class='keywordB' id='" + i + "'>" + keywords[i] + "</button>"
+	+ "<button class='xB' id='" + (-1*i) + "' onclick='deleteKeyword(" + i
+		+ ")'>&#10006</button><br>";
+}
+//console.log(document.getElementById(i).innerHTML);
+//n++;
+}
+else{
+	document.getElementById("ingredInput").value='';
+}
+}
+function deleteKeyword(index){
+	keywords.splice(index, 1);
+	for(j=index; j< keywords.length; j++){
+		document.getElementById(j+1).id = j;
+		document.getElementById(-1*(j+1)).id = -1*j;
+	}
+	document.getElementById("keyTable").innerHTML = "";
+	for(k=0; k < keywords.length; k++){
+		document.getElementById("keyTable").innerHTML +=
+		"<button class='keywordB' id='" + k + "'>" + keywords[k] + "</button>"
+		+ "<button class='xB' id='" + (-1*k) + "' onclick='deleteKeyword(" + k
+			+ ")'>&#10006</button><br>";
+}
+for(l=0; l<keywords.length; l++){
+	console.log(keywords[l]);
+}
+console.log('\n');
+}
+function sendArr(){
+	if(typeof(Storage) !== "undefined") {
+		window.localStorage.setItem("keywords", JSON.stringify(keywords));
+	}
+}
+serverCall(keywords);
+//var callback=[["Curry-Laksa-748241", "Curry Laksa", "http://lh5.ggpht.com/2tGsBnyooz581u3yKmGpMMtSbIKvkdfn84qHHosdmi3LMHoErwxkD52ziAkuBqsS8JiqC3gtX7iho1n57PXGGg=s90-c"],["Lettuce-wraps-with-hoisin-peanut-sauce-341606", "Lettuce Wraps with Hoisin-Peanut Sauce", "http://lh5.ggpht.com/h8d067Ilf1oerL8RWvVDGXTrR2QND4cuU-DP7MmPxeJG5awv-_j-6zSfPR6UxBK-QsrBVXLdInOsTsEY09MvLg=s90"]]
+//retrieveList(callback);
+//console.log(x);
+</script>
+</script>
+</body>
+</html>
